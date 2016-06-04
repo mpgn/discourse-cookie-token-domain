@@ -14,7 +14,7 @@ Cookie content is encode in base64. After decode64 you will have :
     "username":"CapitaineJohn",
     "user_id":2,"avatar":"/user_avatar/forum.teambac.fr/capitainejohn/{size}/117_1.png",
     "group":"[VIP]",
-    "sha256_d": "",
+    "sha256_d": "lROIoUjQVMv1vMThVCMbhS1YehFE4S3aMVKN9Rg2Z7M=",
     "hmac":"e40575e0f828bcf91b5e30c174dfa4399c72a5acbb32b2a483f8fce42798b1ac"
 }
 ```
@@ -29,14 +29,32 @@ The hmac is set with the secret key set in the admin panel
 
 In your webiste at location www.domain.com or *.domain.com follow this step :
 
-* decode the cookie in base64
+* get the cookie `logged_in`
+* urldecode the cookie
+* decode the cookie in base64 : `logged_in`
+* urldecode the cookie
 * get the sha256_d value
 * compare the sha256_d to check if user is connected :
 
 ```
-if hmac === hmac(sha256,key, sha256_d):
+if hmac === hmac(sha256, key, sha256_d):
     print 'user if logged'
 else:
     print 'user not logged'
 ```
 
+Example in PHP
+
+```php
+$cookie = urldecode($_COOKIE["logged_in"]);
+$cookie = base64_decode($cookie);
+$cookie = urldecode($cookie);
+
+$user_infos = json_decode($cookie);
+
+$test = hash_hmac('sha256',$user_infos->sha256_d,'QALS3FtxwKNj39tb');
+
+if ($test !== $user_infos->hmac) {
+    return 'user not logged';
+}
+````
