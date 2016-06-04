@@ -10,7 +10,7 @@ class ExCurrentUserProvider < Auth::DefaultCurrentUserProvider
     unless key.empty?
         payload = { username: user.username, user_id: user.id, avatar: user.avatar_template, group: user.title }
         payload_b64 = Digest::SHA256.base64digest payload.to_json
-        payload[:sha256_d] = payload_b64
+        #payload[:sha256_d] = payload_b64
         hash_function = OpenSSL::Digest.new('sha256')
         hmac = OpenSSL::HMAC.hexdigest(hash_function, SiteSetting.cookie_ui_key, payload_b64)
         payload[:hmac] = hmac

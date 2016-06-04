@@ -1,4 +1,4 @@
-# name: discourse cookie token domain setup
+# name: discourse-cookie-token-domain
 # about: add a cookie token to allow authentication for cross domain
 # version: 0.1
 # authors: mpgn
