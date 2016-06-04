@@ -59,7 +59,7 @@ $array_hash = array(
     'group' => $user_infos->group
 );
 
-$hash_test = hash('sha256', json_encode($array_hash));
+$hash_test = hash('sha256', json_encode($array_hash, JSON_UNESCAPED_SLASHES));
 
 $test = hash_hmac('sha256',$hash_test,'QALS3FtxwKNj39tb');
 
