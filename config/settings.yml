@@ -1,0 +1,7 @@
+plugins:
+  cookie_ui_enabled:
+    default: true
+    client: true
+  cookie_ui_key:
+    default: key_very_random
+    client: false

@@ -1,0 +1,4 @@
+fr:
+  site_settings:
+    cookie_ui_enabled: 'Activer le plugin Cookie-token ?'
+    cookie_ui_key: 'Entrez la clé privée 16 caractères minimum'
