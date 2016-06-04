@@ -33,11 +33,11 @@ In your webiste at location www.domain.com or *.domain.com follow this step :
 * urldecode the cookie
 * decode the cookie in base64 : `logged_in`
 * urldecode the cookie
-* get the sha256_d value
-* compare the sha256_d to check if user is connected :
+* set a sha256 of the data
+* compare the sha256 to check if user is connected :
 
 ```
-if hmac === hmac(sha256, key, sha256_d):
+if hmac === hmac(sha256, key, data):
     print 'user if logged'
 else:
     print 'user not logged'
@@ -52,7 +52,16 @@ $cookie = urldecode($cookie);
 
 $user_infos = json_decode($cookie);
 
-$test = hash_hmac('sha256',$user_infos->sha256_d,'QALS3FtxwKNj39tb');
+$array_hash = array(
+    'username' => $user_infos->username,
+    'user_id' => $user_infos->user_id,
+    'avatar' => $user_infos->avatar,
+    'group' => $user_infos->group
+);
+
+$hash_test = hash('sha256', json_encode($array_hash));
+
+$test = hash_hmac('sha256',$hash_test,'QALS3FtxwKNj39tb');
 
 if ($test !== $user_infos->hmac) {
     return 'user not logged';

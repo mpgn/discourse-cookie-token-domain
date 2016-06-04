@@ -8,10 +8,9 @@ class ExCurrentUserProvider < Auth::DefaultCurrentUserProvider
     require 'base64' if !defined?(Base64)
 
     payload = { username: user.username, user_id: user.id, avatar: user.avatar_template, group: user.title }
-    payload_b64 = Digest::SHA256.base64digest payload.to_json
-    payload[:sha256_d] = payload_b64
+    payload_sha = Digest::SHA256.hexdigest payload.to_json
     hash_function = OpenSSL::Digest.new('sha256')
-    hmac = OpenSSL::HMAC.hexdigest(hash_function, SiteSetting.cookie_ui_key, payload_b64)
+    hmac = OpenSSL::HMAC.hexdigest(hash_function, SiteSetting.cookie_ui_key, payload_sha)
     payload[:hmac] = hmac
     token = Base64.strict_encode64(payload.to_json)
     cookies.permanent[TOKEN_COOKIX] = { value: token, httponly: true, domain: :all }
