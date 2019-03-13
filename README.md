@@ -12,7 +12,7 @@ Cookie content is encode in base64. After decode64 you will have :
 ```
 {
     "username":"CapitaineJohn",
-    "user_id":2,"avatar":"/user_avatar/forum.teambac.fr/capitainejohn/{size}/117_1.png",
+    "user_id":2,"avatar":"/user_avatar/forum.example.com/bonclay/{size}/117_1.png",
     "group":"[VIP]",
     "sha256_d": "lROIoUjQVMv1vMThVCMbhS1YehFE4S3aMVKN9Rg2Z7M=",
     "hmac":"e40575e0f828bcf91b5e30c174dfa4399c72a5acbb32b2a483f8fce42798b1ac"
