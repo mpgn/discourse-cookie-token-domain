@@ -1,7 +1,7 @@
 class ExCurrentUserProvider < Auth::DefaultCurrentUserProvider
   TOKEN_COOKIX ||= "logged_in".freeze
 
-  def log_on_user(user, session, cookies)
+  def log_on_user(user, session, cookies, opts = {})
     super
 
     require 'openssl' if !defined?(OpenSSL)
