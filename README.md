@@ -43,7 +43,7 @@ else:
     print 'user not logged'
 ```
 
-Example in PHP
+#### Example in PHP
 
 ```php
 $cookie = urldecode($_COOKIE["logged_in"]);
@@ -66,4 +66,40 @@ $test = hash_hmac('sha256',$hash_test,'QALS3FtxwKNj39tb');
 if ($test !== $user_infos->hmac) {
     return 'user not logged';
 }
-````
+```
+
+#### Example in Node.js
+```javascript
+const crypto = require('crypto');
+
+// Get the value of the `logged_in` cookie from where ever makes sense
+// in your application. The browser should send it to your backend.
+// For this example, it is hard-coded.
+const valueOfLoggedInCookie =
+  'eyJ1c2VybmFtZSI6ImhvbGxvd3ZlcnNlIiwidXNlcl9pZCI6MSwiYXZhdGFyIjoiL3VzZXJfYXZhdGFyL2Rpc2N1c3MuaG9sbG93dmVyc2UuY29tL2hvbGxvd3ZlcnNlL3tzaXplfS8zXzIucG5nIiwiZ3JvdXAiOm51bGwsImhtYWMiOiI5Njk1ZDdhNDk2ZTBiMTMwZWY1OTI2YjI1NjMyMWUzYjI0YjM5ZWJkNjZjODk3ZTdiNjc0YWVhNjRiZDkyZTdkIn0%3D';
+
+const uriDecodedPayload = decodeURIComponent(valueOfLoggedInCookie);
+const base64DecodedBuffer = Buffer.from(uriDecodedPayload, 'base64');
+const preJsonPayload = JSON.parse(base64DecodedBuffer.toString());
+const jsonPayload = {
+  username: preJsonPayload.username,
+  user_id: preJsonPayload.user_id,
+  avatar: preJsonPayload.avatar,
+  group: preJsonPayload.group,
+};
+const payloadSha = crypto
+  .createHash('sha256')
+  .update(JSON.stringify(jsonPayload))
+  .digest('hex');
+
+const signed = crypto
+  .createHmac('sha256', 'QALS3FtxwKNj39tb')
+  .update(payloadSha)
+  .digest('hex');
+
+if (signed === preJsonPayload.hmac) {
+  console.log('User is logged in');
+} else {
+  console.log('User is not logged in');
+}
+```
