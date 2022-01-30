@@ -5,6 +5,7 @@
 
 enabled_site_setting :cookie_ui_enabled
 
-load File.expand_path("../current_user_provider.rb", __FILE__)
-
-Discourse.current_user_provider = ExCurrentUserProvider
+after_initialize do
+  load File.expand_path("../current_user_provider.rb", __FILE__)
+  Discourse.current_user_provider = ExCurrentUserProvider
+end
